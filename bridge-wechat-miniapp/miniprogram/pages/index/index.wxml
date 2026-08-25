@@ -1,0 +1,289 @@
+<!-- 渡 Dù · Bridge — ported from hospice-bridge-du.html -->
+<view class="phone">
+
+  <!-- ============ header ============ -->
+  <view class="hdr" style="padding-top:{{statusBarHeight}}px;height:{{navBarHeight + statusBarHeight}}px;padding-right:{{headerRightPad}}px">
+    <view class="hdr-row" style="height:{{navBarHeight}}px">
+      <view class="seal">渡</view>
+      <view class="wm">
+        <text class="wm-name">{{brand.name}}</text>
+        <text class="wm-sub">{{brand.sub}}</text>
+      </view>
+      <view class="lang">
+        <text class="lang-btn {{lang==='en' ? 'on' : ''}}" data-l="en" bindtap="onLangTap">EN</text>
+        <text class="lang-btn {{lang==='zh' ? 'on' : ''}}" data-l="zh" bindtap="onLangTap">中文</text>
+      </view>
+      <view class="icobtn" bindtap="onSearchOpen">🔍</view>
+      <view class="icobtn" bindtap="onSafetyOpen">🛡</view>
+    </view>
+  </view>
+
+  <!-- ============ scroll body ============ -->
+  <scroll-view class="view" scroll-y="true">
+    <view class="pane">
+
+      <!-- ============ HOME ============ -->
+      <block wx:if="{{tab===0}}">
+        <view class="crossing">
+          <view class="crossing-cap"><text class="crossing-cap-text">{{home.banner}}</text></view>
+          <view class="crossing-track">
+            <view class="crossing-fill" style="width:{{doneCount*10}}%"></view>
+            <view class="crossing-boat" style="left:{{6 + doneCount*8}}%">⛵</view>
+          </view>
+        </view>
+
+        <view class="eyebrow">{{home.eyebrow}}</view>
+        <view class="big">{{home.title}}</view>
+        <view class="lede">{{home.lede}}</view>
+        <view class="progressline"><text class="progressline-n">{{doneCount}}</text><text class="progressline-l">{{home.countLabel}}</text></view>
+
+        <view class="steps">
+          <view class="step {{done[idx] ? 'done' : ''}}" hover-class="press" wx:for="{{home.steps}}" wx:key="*this" wx:for-item="s" wx:for-index="idx" data-idx="{{idx}}" bindtap="onStepTap">
+            <text class="step-no">{{idx+1}}</text>
+            <view class="tick">{{done[idx] ? '✓' : ''}}</view>
+            <text class="step-txt">{{s}}</text>
+          </view>
+        </view>
+
+        <view class="gate">
+          <view class="gate-btn" hover-class="press" wx:for="{{home.gates}}" wx:key="t" wx:for-item="g" data-go="{{g.go}}" bindtap="onGateTap">
+            <text class="gate-zh">{{g.zh}}</text>
+            <text class="gate-t">{{g.t}}</text>
+            <text class="gate-d">{{g.d}}</text>
+          </view>
+        </view>
+
+        <view class="eyebrow">{{home.quietTitle}}</view>
+        <view class="lede">{{home.quietLede}}</view>
+        <view class="card" wx:for="{{home.quiet}}" wx:key="k" wx:for-item="q">
+          <view class="card-h">{{q.k}}</view>
+          <view class="card-p">{{q.v}}</view>
+        </view>
+      </block>
+
+      <!-- ============ FORUM ============ -->
+      <block wx:if="{{tab===1 && sub!=='thread'}}">
+        <view class="eyebrow">{{forum.eyebrow}}</view>
+        <view class="big">{{forum.title}}</view>
+
+        <scroll-view class="chiprow" scroll-x="true">
+          <text class="chip {{filter===i ? 'sel' : ''}}" wx:for="{{forum.sections}}" wx:key="*this" wx:for-item="sec" wx:for-index="i" data-i="{{i}}" bindtap="onForumFilterTap">{{sec}}</text>
+        </scroll-view>
+
+        <view class="post" hover-class="press" wx:for="{{forum.posts}}" wx:key="t" wx:for-item="post" wx:for-index="i" wx:if="{{filter===0 || post.sec===filter}}" data-i="{{i}}" bindtap="onPostTap">
+          <view class="post-top">
+            <text class="badge {{bd[0]}}" wx:for="{{post.badges}}" wx:for-item="bd">{{bd[0]==='spec' ? '✓ ' : ''}}{{bd[1]}}</text>
+          </view>
+          <view class="post-h">{{post.t}}</view>
+          <view class="post-p">{{post.b}}</view>
+          <view class="post-foot"><text>💬 {{post.r}} {{ui.replies}}</text><text>{{post.v}}</text></view>
+        </view>
+      </block>
+
+      <!-- ============ FORUM THREAD ============ -->
+      <block wx:if="{{tab===1 && sub==='thread'}}">
+        <view class="backlink" bindtap="onSubBack">‹ {{ui.back}}</view>
+        <view class="big">{{forum.thread.t}}</view>
+
+        <view class="summary">
+          <view class="summary-hd"><text class="badge ai">{{ui.aiSummary}}</text><text class="small">{{ui.aiSummaryNote}}</text></view>
+          <view class="summary-li" wx:for="{{forum.thread.sum}}" wx:key="*this">· {{item}}</view>
+        </view>
+
+        <view class="reply">
+          <view class="reply-who"><text class="reply-who-b">{{forum.thread.op.who}}</text><text class="badge anon">{{forum.thread.op.when}}</text></view>
+          <view class="reply-p" wx:for="{{forum.thread.op.body}}" wx:key="*this">{{item}}</view>
+        </view>
+
+        <view class="reply {{r.spec ? 'specialist' : ''}}" wx:for="{{forum.thread.replies}}" wx:key="who" wx:for-item="r">
+          <view class="reply-who">
+            <text class="reply-who-b">{{r.who}}</text>
+            <text class="badge {{r.spec ? 'spec' : 'role'}}" wx:if="{{r.role}}">{{r.spec ? '✓ ' : ''}}{{r.role}}</text>
+            <text>{{r.when}}</text>
+          </view>
+          <view class="reply-p" wx:for="{{r.body}}" wx:key="*this" wx:for-item="line">{{line}}</view>
+        </view>
+      </block>
+
+      <!-- ============ CARE MAP ============ -->
+      <block wx:if="{{tab===2}}">
+        <view class="eyebrow">{{mapData.eyebrow}}</view>
+        <view class="big">{{mapData.title}}</view>
+        <view class="lede">{{mapData.lede}}</view>
+
+        <view class="mapwrap">
+          <view class="mapgraphic">
+            <view class="pin {{selectedPin===p.n ? 'sel' : ''}}" wx:for="{{pins}}" wx:key="n" wx:for-item="p" style="left:{{p.left}}%;top:{{p.top}}%" data-n="{{p.n}}" bindtap="onPinTap">{{p.n}}</view>
+          </view>
+          <view class="samplebar">⚠ {{mapData.sampleWarn}}</view>
+        </view>
+
+        <scroll-view class="chiprow" scroll-x="true">
+          <text class="chip {{mapFilterOn[i] ? 'sel' : ''}}" wx:for="{{mapData.filters}}" wx:key="*this" wx:for-index="i" data-i="{{i}}" bindtap="onMapFilterTap">{{item}}</text>
+        </scroll-view>
+
+        <view class="place" hover-class="press" wx:for="{{mapData.places}}" wx:key="n" wx:for-item="pl" data-n="{{pl.n}}" bindtap="onPinTap">
+          <text class="place-n {{selectedPin===pl.n ? 'sel' : ''}}">{{pl.n}}</text>
+          <view class="place-b">
+            <text class="place-t">{{pl.t}}</text>
+            <text class="small">{{pl.d}}</text>
+            <view class="place-tags">
+              <text class="place-tag" wx:for="{{pl.tags}}" wx:key="*this">{{item}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <!-- ============ WORDS: list ============ -->
+      <block wx:if="{{tab===3 && !sub}}">
+        <view class="eyebrow">{{words.eyebrow}}</view>
+        <view class="big">{{words.title}}</view>
+        <view class="lede">{{words.lede}}</view>
+
+        <view class="track {{i ? 'b' : ''}}" hover-class="press" wx:for="{{words.tracks}}" wx:key="t" wx:for-item="tr" wx:for-index="i" data-go="{{tr.go}}" bindtap="onWordsTrackTap">
+          <text class="track-zh">{{tr.zh}}</text>
+          <text class="track-h">{{tr.t}}</text>
+          <text class="track-p">{{tr.d}}</text>
+          <view class="track-bar"></view>
+        </view>
+
+        <view class="eyebrow">{{words.more}}</view>
+        <view class="card tap" hover-class="press" wx:for="{{words.moreItems}}" wx:key="*this" bindtap="onMoreItemTap">
+          <text class="card-p ink">{{item}}</text>
+        </view>
+      </block>
+
+      <!-- ============ WORDS: talking with children ============ -->
+      <block wx:if="{{tab===3 && sub==='kids'}}">
+        <view class="backlink" bindtap="onSubBack">‹ {{words.kids.back}}</view>
+        <view class="big">{{words.kids.title}}</view>
+        <view class="lede">{{words.kids.lede}}</view>
+        <view class="card">
+          <view class="card-h">{{words.kids.pain.k}}</view>
+          <view class="card-p">{{words.kids.pain.v}}</view>
+        </view>
+
+        <view class="agerow" wx:for="{{words.kids.rows}}" wx:key="ag" wx:for-item="row">
+          <view class="ag"><text>{{row.ag}}</text><text class="ag-sub">{{row.sub}}</text></view>
+          <view class="agerow-dl">
+            <text class="agerow-dt">{{lang==='en' ? 'They hear' : '他们听到的'}}</text>
+            <text class="agerow-dd">{{row.u}}</text>
+            <text class="agerow-dt">{{lang==='en' ? 'You say' : '你可以怎么说'}}</text>
+            <rich-text class="agerow-dd" nodes="{{row.p}}"></rich-text>
+          </view>
+        </view>
+
+        <view class="card">
+          <view class="card-h">{{words.kids.growth.t}}</view>
+          <view class="card-p">{{words.kids.growth.v}}</view>
+        </view>
+      </block>
+
+      <!-- ============ WORDS: talking with someone dying ============ -->
+      <block wx:if="{{tab===3 && sub==='dying'}}">
+        <view class="backlink" bindtap="onSubBack">‹ {{words.dying.back}}</view>
+        <view class="big">{{words.dying.title}}</view>
+        <view class="lede">{{words.dying.lede}}</view>
+
+        <view class="eyebrow">{{words.dying.openTitle}}</view>
+        <view class="script" wx:for="{{words.dying.opens}}" wx:key="*this">{{item}}</view>
+
+        <view class="card">
+          <view class="card-h">{{words.dying.ctx.t}}</view>
+          <view class="card-p">{{words.dying.ctx.v}}</view>
+        </view>
+
+        <view class="eyebrow">{{words.dying.avoidTitle}}</view>
+        <view class="tabooList">
+          <view class="taboo-li" wx:for="{{words.dying.avoid}}" wx:key="*this">✕ <text>{{item}}</text></view>
+        </view>
+
+        <view class="eyebrow">{{words.dying.doTitle}}</view>
+        <view class="tabooList ok">
+          <view class="taboo-li" wx:for="{{words.dying.dos}}" wx:key="*this">✓ <text>{{item}}</text></view>
+        </view>
+
+        <view class="eyebrow">{{words.dying.fourTitle}}</view>
+        <view class="lede">{{words.dying.fourLede}}</view>
+        <view class="four">
+          <view class="four-cell" wx:for="{{words.dying.four}}" wx:key="en" wx:for-item="f">
+            <text class="four-zh">{{f.zh}}</text>
+            <text class="four-en">{{f.en}}</text>
+          </view>
+        </view>
+        <view class="card tap" hover-class="press" bindtap="onSaveCardTap"><text class="card-p ink">{{words.dying.cardCta}}</text></view>
+      </block>
+
+    </view>
+  </scroll-view>
+
+  <!-- ============ compose fab ============ -->
+  <view class="compose" hover-class="press" wx:if="{{tab===1 && !sub}}" bindtap="onCompose">✎</view>
+
+  <!-- ============ tab bar ============ -->
+  <view class="tabs">
+    <view class="tab-btn {{tab===i ? 'on' : ''}}" wx:for="{{tabsDisplay}}" wx:key="zh" wx:for-item="t" wx:for-index="i" data-i="{{i}}" bindtap="onTabTap">
+      <text class="tab-zh">{{t.zh}}</text>
+      <text class="tab-l">{{t.label}}</text>
+    </view>
+  </view>
+
+  <!-- ============ sheets ============ -->
+  <view class="scrim {{sheet ? 'on' : ''}}" bindtap="onSheetClose"></view>
+  <view class="sheet {{sheet ? 'on' : ''}}">
+    <view class="grab"></view>
+    <view class="sheet-close" bindtap="onSheetClose">✕</view>
+    <scroll-view class="sbody" scroll-y="true">
+
+      <block wx:if="{{sheet==='search'}}">
+        <view class="eyebrow">{{search.title}} <text class="livetag">{{ui.live}}</text></view>
+        <view class="searchbox">
+          <text>🔍</text>
+          <input class="searchbox-input" value="{{searchQuery}}" placeholder="{{search.ph}}" confirm-type="search" bindinput="onSearchInput" bindconfirm="onSearchConfirm" />
+        </view>
+        <view class="small">{{search.lede}}</view>
+        <scroll-view class="chiprow" scroll-x="true">
+          <text class="chip" wx:for="{{search.chips}}" wx:key="*this" data-q="{{item}}" bindtap="onSearchChip">{{item}}</text>
+        </scroll-view>
+
+        <view wx:if="{{searchStage==='empty'}}" class="small pad">{{search.empty}}</view>
+        <view wx:if="{{searchStage==='thinking'}}" class="thinking">
+          <text class="dot3">● ● ●</text>
+          <text>{{lang==='en' ? 'Reading the guides and the map' : '正在读取指南与地图'}}</text>
+        </view>
+        <rich-text wx:if="{{searchStage==='result'}}" class="airesult" nodes="{{searchResultHtml}}"></rich-text>
+
+        <view class="aifoot">ℹ <text>{{search.foot}}</text></view>
+      </block>
+
+      <block wx:if="{{sheet==='safety'}}">
+        <view class="eyebrow">{{ui.safety}}</view>
+        <view class="big">{{safety.title}}</view>
+        <view class="lede">{{safety.lede}}</view>
+
+        <view class="eyebrow">{{safety.rulesTitle}}</view>
+        <view class="rules">
+          <view class="rules-li" wx:for="{{safety.rules}}" wx:key="*this" wx:for-index="i"><text class="rules-n">{{i+1}}</text>{{item}}</view>
+        </view>
+
+        <view class="eyebrow">{{safety.flowTitle}}</view>
+        <view class="flow">
+          <block wx:for="{{safety.flow}}" wx:key="k" wx:for-item="n" wx:for-index="i">
+            <view class="flownode {{n.alert ? 'alert' : ''}}"><text class="flownode-k">{{n.k}}</text><text>{{n.v}}</text></view>
+            <view class="flowarrow" wx:if="{{i < safety.flow.length - 1}}">↓</view>
+          </block>
+        </view>
+
+        <view class="todo"><text class="todo-b">{{safety.todoTitle}}</text>{{safety.todo}}</view>
+
+        <view class="eyebrow">{{safety.aiTitle}}</view>
+        <view class="lede">{{safety.ai}}</view>
+      </block>
+
+    </scroll-view>
+  </view>
+
+  <!-- ============ toast ============ -->
+  <view class="toast {{toastShow ? 'on' : ''}}">{{toastText}}</view>
+
+</view>

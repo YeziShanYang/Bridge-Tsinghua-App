@@ -1,0 +1,4 @@
+{
+  "desc": "Prototype — not indexed.",
+  "rules": [{ "action": "disallow", "page": "*" }]
+}

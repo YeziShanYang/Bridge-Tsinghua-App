@@ -1,0 +1,26 @@
+/* Bridge (渡) — global styles, ported from hospice-bridge-du.html's :root palette */
+page {
+  --ink: #16232E;
+  --ink-2: #2B3B45;
+  --ink-3: #5A6B72;
+  --paper: #E9EDEA;
+  --paper-2: #F4F7F4;
+  --paper-3: #DDE4E0;
+  --celadon: #8FAFA8;
+  --celadon-deep: #3F625E;
+  --seal: #B44A3C;
+  --lamp: #E3B36A;
+  --display: 'Songti SC', 'STSong', serif;
+  --body: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --r: 28rpx;
+  --r-s: 18rpx;
+  --gut: 44rpx;
+
+  background: #C9D3CE;
+  color: var(--ink);
+  font-family: var(--body);
+  box-sizing: border-box;
+}
+view, text, button, input, textarea, image, scroll-view, rich-text { box-sizing: border-box; }
+button { font-size: inherit; line-height: inherit; }
+button::after { border: none; }
