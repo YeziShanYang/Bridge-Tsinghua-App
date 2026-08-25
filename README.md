@@ -10,5 +10,5 @@ Inspired by Professor Jing Jun's lecture *Bringing Death Back into Life,* the pr
 
 - [bridge-wechat-miniapp](#bridge-wechat-miniapp): Our prototype translated into a WeChat MiniApp. To run, use the following IDE: [WeChat DevTools](https://developers.weixin.qq.com/miniprogram/dev/devtools/devtools.html)
 - [Bridge_Presentation.pptx](#Bridge_Presentation.pptx): The presentation we created to present our project proposal and prototype. **Note:** QR Code was a demo and expires 1 week after; permanent QR code not generated as of yet.
-- [THU_RCCP_Group_2_Research_Paper_Final.pdf](#THU_RCCP_Group_2_Research_Paper_Final.pdf): The research paper in pdf form.
+- [THU_RCCP_Group_2_Research_Paper_Final.pdf](#THU_RCCP_Group_2_Research_Paper_Final.pdf): The research paper in pdf form. Written with Overleaf in LaTeX
 - [index.html](#index.html): Project Prototype in html format for easy viewing, hosted on Github Pages.
