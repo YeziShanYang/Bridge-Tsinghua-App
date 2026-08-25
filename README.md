@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Selected as 1 of 30 participants from roughly 1,800 applicants to the Tsinghua University Research Center for Culture and Psychology International Summer School 2026, where this proposal and prototype was selected as the strongest project by the teaching team among all project groups.
+Selected as 1 of 20 participants from roughly 1,800 applicants to the Tsinghua University Research Center for Culture and Psychology International Summer School 2026, where this proposal and prototype was selected as the strongest project by the teaching team among all project groups.
 
 Inspired by Professor Jing Jun's lecture *Bringing Death Back into Life,* the project addresses a gap in public awareness of palliative care in China: national pilot programs now cover 185 cities and districts, yet in one survey only about two in five respondents could explain what hospice and palliative care is. We deliver it as a WeChat Mini Program because they are easily accessed from open from links or QR codes, need no installation, and run on inexpensive devices.
 
