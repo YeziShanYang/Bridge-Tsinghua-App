@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+._*
+
+# WeChat DevTools local state
+# project.private.config.json holds per-machine editor and compiler settings,
+# not project configuration; project.config.json is the shared one.
+project.private.config.json
+
+# Editors
+.vscode/
+.idea/
+*.swp
